@@ -3,6 +3,7 @@ import cors from 'cors';
 const ACCEPTED_ORIGINS = [
     'http://localhost:8080',
     'http://localhost:1234',
+    'http://localhost:4200',
     'https://pruebas.com',
     'https://test.dev'
   ]
