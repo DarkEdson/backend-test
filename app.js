@@ -9,10 +9,10 @@ export const createApp = ({usuarioModel, combosModel}) =>{
 
 
     const app = express()
+    app.disable('x-powered-by')
     app.use(bodyParser.json())
-    app.use(corsMiddleware())
     app.use(bodyParser.urlencoded({ extended: true }));
-    app.disable('x-powered-by') 
+    app.use( cors())
     app.options('*', cors())
     app.use('/api/usuario', createUsuarioRoutes({usuarioModel}));
     app.use('/api/miscelanea', createCombosRoutes({combosModel}));
