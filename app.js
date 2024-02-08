@@ -1,16 +1,19 @@
 import express from 'express';
 import bodyParser  from 'body-parser';
+import cors from 'cors';
 import {createUsuarioRoutes} from './routes/usuarioRoutes.js';
 import {createCombosRoutes} from './routes/combosRoutes.js'
 import {corsMiddleware} from './middleware/corsMiddleware.js';
 
 export const createApp = ({usuarioModel, combosModel}) =>{
+
+
     const app = express()
     app.use(bodyParser.json())
     app.use(corsMiddleware())
     app.use(bodyParser.urlencoded({ extended: true }));
     app.disable('x-powered-by') 
-    
+    app.options('*', cors())
     app.use('/api/usuario', createUsuarioRoutes({usuarioModel}));
     app.use('/api/miscelanea', createCombosRoutes({combosModel}));
     

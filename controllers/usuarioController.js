@@ -137,14 +137,16 @@ export class UsuariosController {
 
   registrarUsuarioJSON = async (req, res) => {
     const userData = validateUsuario(req.body);
-
+    console.log('PASE VALIDACIONES?', userData)
     if (!userData.success) {
+      console.log('FLAG 0')
       return res.status(400).json({
         result: -1,
         message: "Ocurrió una Excepción",
         data: JSON.parse(userData.error.message),
       });
     } else {
+      console.log('FLAG 1')
         const user = await this.usuarioModel.registrar(userData.data);
         res.status(200).json({
             result: 1,
@@ -152,7 +154,7 @@ export class UsuariosController {
             data: user,
           });
     }
-
+    console.log('FLAG 2')
   };
 
   loginUsuario = async (req, res) => {

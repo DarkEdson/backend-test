@@ -46,9 +46,11 @@ const LoginSchema = z.object({
 
 export function validateUsuario (object){
   let objectUser = object
-  const fechaNacimientoMoment = moment(objectUser.FechaNacimiento);
+  const fechaNacimientoMoment = moment(objectUser.FechaNacimiento, "DD/MM/YYYY");
+  console.log('FECHA NAC', objectUser, objectUser.FechaNacimiento, fechaNacimientoMoment, typeof fechaNacimientoMoment)
   const fechaNacimientoDate = fechaNacimientoMoment.toDate().toISOString().slice(0, 19).replace('T', ' ');
   objectUser.FechaNacimiento = fechaNacimientoDate;
+  
     return usuarioSchema.safeParse(objectUser)
 }
 
