@@ -1,10 +1,13 @@
 import { validateUsuario } from "../schemas/usuarioSchemas.js";
 import formidable from "formidable";
 import jwt from "jsonwebtoken";
+import {jwtSecret} from '../config/config.js';
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+
 const { pathname: root } = new URL("../uploads", import.meta.url);
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -27,7 +30,7 @@ function generateJWTToken(user) {
       IdUsuario: user.IdUsuario,
       roles: [user.IdRol],
     },
-    "secret_key",
+    jwtSecret,
     { expiresIn: "1h" }
   );
   return token; // Esto es solo un ejemplo, necesitas implementar la lógica real

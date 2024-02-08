@@ -1,0 +1,1 @@
+export const jwtSecret = 'Illy@svi3l' // Reemplaza esto con tu propia clave secreta
