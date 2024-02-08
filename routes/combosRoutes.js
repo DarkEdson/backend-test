@@ -8,7 +8,7 @@ export const createCombosRoutes = ({combosModel}) =>{
     
     const combosController = new CombosController({combosModel})
     
-    combosRouter.use(authMiddleware);
+    //combosRouter.use(authMiddleware);
     combosRouter.get('/departamento', combosController.departamentosList);
     combosRouter.post('/municipio', combosController.municipiosList);
     combosRouter.get('/comunidadLinguistica', combosController.comLinguistList);
