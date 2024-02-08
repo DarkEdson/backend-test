@@ -1,0 +1,71 @@
+GET http://localhost:1234/pokemon/ditto
+
+###
+
+POST http://localhost:1234/api/usuario/login
+Content-Type: application/json
+
+{ "usuario": "juanperez", "palabraClave": "contraseña123" }
+
+###
+
+POST http://localhost:1234/api/usuario/registro
+Content-Type: application/json
+
+{ "usuario": "hola", "palabraClave": "password" }
+
+
+###
+
+POST http://localhost:1234/api/usuario/registro
+Content-Type: application/json
+
+{
+  "Nombres": "Juan",
+  "Apellidos": "Pérez",
+  "Usuario": "juanperez",
+  "Email": "juan@example.com",
+  "Whatsapp": null,
+  "PalabraClave": "contraseña123",
+  "Estado": true,
+  "IdColaborador": 123,
+  "NotificacionWhatsapp": false,
+  "DocumentoIdTipo": 1,
+  "NoDocumento": "123456789",
+  "IdGuid": "123e4567-e89b-12d3-a456-426614174000",
+  "FechaNacimiento": "01/01/1990",
+  "IdEstadoCivil": 2,
+  "Ocupacion": "Programador",
+  "IdComunidadLinguistica": 1,
+  "IdPuebloPertenencia": 1,
+  "Telefono": "1234567890",
+  "DireccionNotificacion": "Calle Principal #123",
+  "IdDepartamento": 1,
+  "IdMunicipio": 1,
+  "IdSexo": 2
+}
+###
+GET http://localhost:1234
+
+#####
+GET http://localhost:1234/api/miscelanea/departamento
+
+###
+GET http://localhost:1234/movies/63ed100c-c3a2-11ee-a4d6-54e1ad36bf8b
+
+###
+
+GET http://localhost:1234/movies?genre=drama
+
+###
+POST http://localhost:1234/api/miscelanea/municipio
+Content-Type: application/json
+
+{
+    "IdDepartamento": 15
+}
+
+###
+DELETE http://localhost:1234/movies/f0ee8904-f866-4ca0-bbdb-934b78430414
+Content-Type: application/json
+
