@@ -5,7 +5,9 @@ const ACCEPTED_ORIGINS = [
   'http://localhost:8080',
   'http://localhost:1234',
   'http://localhost:4200',
-  'https://backend-test-dev-tghg.3.us-1.fl0.io'
+  'https://backend-test-dev-tghq.3.us-1.fl0.io',
+  'http://backend-test-dev-tghq.3.us-1.fl0.io',
+  'http://localhost:4200/',
 ];
 
 export const corsMiddleware = ({acceptedOrigins = ACCEPTED_ORIGINS}= {}) => cors({
