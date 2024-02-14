@@ -174,4 +174,41 @@ export class UsuariosController {
         .json({ result: 0, message: "Usuario o contraseña incorrectos" });
     }
   };
+
+  listarUsuarios = async (req, res) => {
+    const {Estado} = req.query
+
+    console.log('Estado', Estado,)
+    const users = await this.usuarioModel.obtenerUsuarios(Estado);
+    console.log('SALIENDO DE DB',users)
+    if (users.length > 0) {
+      // Autenticación exitosa, generar token JWT y enviar en la respuesta
+      res.status(200).json({
+        result: 1,
+        message: "Usuarios Listados" + (Estado ? (Estado == "Activos" ? ' Activos' : ' Inactivos') : ''),
+        data: { ...users },
+      });
+    } else {
+      res
+        .status(401)
+        .json({ result: 0, message: "No hay usuarios" });
+    }
+  };
+
+  obtenerUsuarioPorId = async (req, res) => {
+    const {IdUsuario} = req.query
+    const user = await this.usuarioModel.obtenerUsuarioPorID(IdUsuario);
+    if (user.length > 0) {
+      // Autenticación exitosa, generar token JWT y enviar en la respuesta
+      res.status(200).json({
+        result: 1,
+        message: "Usuario",
+        data: { ...user[0] },
+      });
+    } else {
+      res
+        .status(401)
+        .json({ result: 0, message: "No hay usuarios" });
+    }
+  };
 }

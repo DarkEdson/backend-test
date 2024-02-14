@@ -27,7 +27,7 @@ const usuarioSchema = z.object({
   NoDocumento: z.string().nullable(),
   IdGuid: z.string().nullable(),
   FechaNacimiento: z.string().nullable(), // Ajustar el tipo según el formato de fecha deseado
-  IdEstadoCivil: z.number().int().nullable(),
+  IdEstadoCivil: z.string().nullable(),
   Ocupacion: z.string().nullable(),
   IdComunidadLinguistica: z.number().int().nullable(),
   IdPuebloPertenencia: z.number().int().nullable(),
@@ -37,6 +37,7 @@ const usuarioSchema = z.object({
   IdMunicipio: z.number().int().nullable(),
   IdSexo: z.number().int().nullable(),
   DocumentoAdjunto: z.any().nullable(),
+  DocumentoNube: z.string().nullable(),
 })
 
 const LoginSchema = z.object({
@@ -50,7 +51,7 @@ export function validateUsuario (object){
   console.log('FECHA NAC', objectUser, objectUser.FechaNacimiento, fechaNacimientoMoment, typeof fechaNacimientoMoment)
   const fechaNacimientoDate = fechaNacimientoMoment.toDate().toISOString().slice(0, 19).replace('T', ' ');
   objectUser.FechaNacimiento = fechaNacimientoDate;
-  
+
     return usuarioSchema.safeParse(objectUser)
 }
 

@@ -39,7 +39,7 @@ class UsuarioModel {
       // Realizar operaciones con la conexión...
       // Lógica para realizar el login y devolver un token JWT
       const sql =
-        "SELECT u.*, d.NombreDepartamento, m.nombre, c.NombreComunidadLinguistica, p.NombrePuebloPertenencia, s.NombreSexo, e.NombreEstadoCivil FROM TblSegUsuario AS u INNER JOIN Departamento AS d ON u.IdDepartamento = d.IdDepartamento INNER JOIN Municipios AS m ON u.IdMunicipio = m.idMunicipio INNER JOIN ComunidadLinguistica AS c ON u.IdComunidadLinguistica = c.IdComunidadLinguistica INNER JOIN PuebloPertenencia AS p ON u.IdPuebloPertenencia = p.IdPuebloPertenencia INNER JOIN Sexo AS s ON u.IdSexo = s.IdSexo  INNER JOIN EstadoCivil AS e ON u.IdEstadoCivil = e.IdEstadoCivil  WHERE u.Usuario = ? AND u.PalabraClave = ?";
+        "SELECT u.*, d.NombreDepartamento, m.nombre AS nombreMunicipio, c.NombreComunidadLinguistica, p.NombrePuebloPertenencia, s.NombreSexo, e.NombreEstadoCivil FROM TblSegUsuario AS u INNER JOIN Departamento AS d ON u.IdDepartamento = d.IdDepartamento INNER JOIN Municipios AS m ON u.IdMunicipio = m.idMunicipio INNER JOIN ComunidadLinguistica AS c ON u.IdComunidadLinguistica = c.IdComunidadLinguistica INNER JOIN PuebloPertenencia AS p ON u.IdPuebloPertenencia = p.IdPuebloPertenencia INNER JOIN Sexo AS s ON u.IdSexo = s.IdSexo  INNER JOIN EstadoCivil AS e ON u.IdEstadoCivil = e.IdEstadoCivil  WHERE u.Usuario = ? AND u.PalabraClave = ?";
       const response = await connection.query(sql, [usuario, palabraClave]);
       console.log(response)
       return response[0];
@@ -48,52 +48,43 @@ class UsuarioModel {
     }
   };
 
-  static obtenerDepartamento = async () => {
-    const sql = 'SELECT * FROM Departamento';
-    const response = await connection.query(sql);
+  static obtenerUsuarios = async (estado) => {
+    try {
+      const connection = await connectToDatabase();
+      // Realizar operaciones con la conexión...
+      console.log('DB Estado',estado,estado === 1, estado === 2 )
+      if (estado) {
+        console.log('DB Estado',estado,estado == "Activos", estado == "Inactivos" )
+        let value = estado ==  "Activos" ? 1 : 0
+        console.log('VALUE Y ESTADO', value, estado)
+        const sql =
+        "SELECT u.*, d.NombreDepartamento, m.nombre as NombreMunicipio, c.NombreComunidadLinguistica, p.NombrePuebloPertenencia, s.NombreSexo, e.NombreEstadoCivil FROM TblSegUsuario AS u INNER JOIN Departamento AS d ON u.IdDepartamento = d.IdDepartamento INNER JOIN Municipios AS m ON u.IdMunicipio = m.idMunicipio INNER JOIN ComunidadLinguistica AS c ON u.IdComunidadLinguistica = c.IdComunidadLinguistica INNER JOIN PuebloPertenencia AS p ON u.IdPuebloPertenencia = p.IdPuebloPertenencia INNER JOIN Sexo AS s ON u.IdSexo = s.IdSexo  INNER JOIN EstadoCivil AS e ON u.IdEstadoCivil = e.IdEstadoCivil WHERE u.Estado = ? ";
+      const response = await connection.query(sql,[value]);
       console.log(response)
+      return response;
+      }else{
+        console.log('FLAG ELSE DB?')
+        const sql =
+        "SELECT u.*, d.NombreDepartamento, m.nombre as NombreMunicipio, c.NombreComunidadLinguistica, p.NombrePuebloPertenencia, s.NombreSexo, e.NombreEstadoCivil FROM TblSegUsuario AS u INNER JOIN Departamento AS d ON u.IdDepartamento = d.IdDepartamento INNER JOIN Municipios AS m ON u.IdMunicipio = m.idMunicipio INNER JOIN ComunidadLinguistica AS c ON u.IdComunidadLinguistica = c.IdComunidadLinguistica INNER JOIN PuebloPertenencia AS p ON u.IdPuebloPertenencia = p.IdPuebloPertenencia INNER JOIN Sexo AS s ON u.IdSexo = s.IdSexo  INNER JOIN EstadoCivil AS e ON u.IdEstadoCivil = e.IdEstadoCivil ";
+      const response = await connection.query(sql);
+      console.log('FLAG POST?',response[0])
       return response[0];
+      }
+      
+    } catch (error) {
+      // Manejar errores
+    }
   }
   
   // Método para obtener la información de una comunidad lingüística por su ID
-  static obtenerComunidadLinguistica = async ()  => {
-    const sql = 'SELECT * FROM ComunidadLinguistica';
-    const response = await connection.query(sql);
+  static obtenerUsuarioPorID = async (idUsuario)  => {
+    const connection = await connectToDatabase();
+    const sql = "SELECT u.*, d.NombreDepartamento, m.nombre as NombreMunicipio, c.NombreComunidadLinguistica, p.NombrePuebloPertenencia, s.NombreSexo, e.NombreEstadoCivil FROM TblSegUsuario AS u INNER JOIN Departamento AS d ON u.IdDepartamento = d.IdDepartamento INNER JOIN Municipios AS m ON u.IdMunicipio = m.idMunicipio INNER JOIN ComunidadLinguistica AS c ON u.IdComunidadLinguistica = c.IdComunidadLinguistica INNER JOIN PuebloPertenencia AS p ON u.IdPuebloPertenencia = p.IdPuebloPertenencia INNER JOIN Sexo AS s ON u.IdSexo = s.IdSexo  INNER JOIN EstadoCivil AS e ON u.IdEstadoCivil = e.IdEstadoCivil  WHERE u.IdUsuario = ? ";
+    const response = await connection.query(sql, [idUsuario]);
       console.log(response)
       return response[0];
   }
   
-  // Método para obtener la información de un pueblo de pertenencia por su ID
-  static obtenerPuebloPertenencia = async () => {
-    const sql = 'SELECT * FROM PuebloPertenencia';
-    const response = await connection.query(sql);
-      console.log(response)
-      return response[0];
-  }
-  
-  // Método para obtener la información de un sexo por su ID
-  static obtenerSexo = async () => {
-    const sql = 'SELECT * FROM Sexo';
-    const response = await connection.query(sql);
-      console.log(response)
-      return response[0];
-  }
-  
-  // Método para obtener la información de un estado civil por su ID
-  static obtenerEstadoCivil = async ()=> {
-    const sql = 'SELECT * FROM EstadoCivil';
-    const response = await connection.query(sql);
-      console.log(response)
-      return response[0];
-  }
-  
-  // Método para obtener los municipios de un departamento por su ID
-  static obtenerMunicipiosPorDepartamentoId = async (idDepartamento) => {
-    const sql = 'SELECT * FROM Municipio WHERE IdDepartamento = ?';
-    const response = await connection.query(sql, [idDepartamento]);
-      console.log(response)
-      return response[0];
-  }
 }
 
 export default UsuarioModel;
